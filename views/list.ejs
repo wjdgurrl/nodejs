@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>리스트</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+    <body class="grey-bg">
+    <!--html 페이지 요소 불러오기-->
+    <%- include('nav.ejs') %>
+
+    <div class="white-bg">
+        <!--이렇게 선언해야 데이터 html에 전송-->
+        <!--<%= JSON.stringify(글목록)%>-->
+        <% for (var i = 0; i < 글목록.length; i++){ %>
+            <div class="white-box">
+            <div class="list-box">
+                <h4>
+                    <a href="/detail/<%= 글목록[i]._id %>">
+                        <%= 글목록[i].title %>
+                    </a>
+                </h4>
+                <p><%= 글목록[i].content %></p>
+                <a href="/edit/<%= 글목록[i]._id%>">✏️</a>
+                <span class="delete">🗑️</span>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    </body>
+</html>
