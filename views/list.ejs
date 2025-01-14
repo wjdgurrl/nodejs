@@ -21,10 +21,42 @@
                 </h4>
                 <p><%= 글목록[i].content %></p>
                 <a href="/edit/<%= 글목록[i]._id%>">✏️</a>
-                <span class="delete">🗑️</span>
+                <span class="delete" data-docid="<%= 글목록[i]._id %>">🗑️</span> <!-- 데이터를 id로 저장해줘-->
             </div>
             <% } %>
         </div>
     </div>
+
+    <a href="/list/next/<%= 글목록[글목록.length -1]._id%>">다음</a>
+    <!--axios 라이브러리 설치-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </body>
+<script>
+
+    //axios.get('/URL').then((r)=>{console.log(r)}) // get요청 날리고 결과요청
+
+    //html요소를 function의 파라미터로 받아와서 전송함
+    //자바스크립트안에서 쓰려먼 문자로 담아줘야함
+    for (let i = 0; i < '<%= 글목록.length %>'; i++) {
+        document.querySelectorAll('.delete')[i]
+            .addEventListener('click', function (e) {
+            fetch('/delete?docid=' + e.target.dataset.docid, { //data-docid태그의 값을 파리미터로 받아와서 쿼리스트링으로넘김
+                method: 'DELETE',
+                //delete요청을 할때 body를 쓰면 잘 안가는 경우가 있음
+            })
+                .then((r) => r.text())
+                .then((r) => {
+                    e.target.parentElement.style.display='none';// 현재 버튼이 속해있는 곳의 html요소를 숨김
+                })
+                //.then((r) => { console.log(r)}) //서버에서 문자를 보내는 경우
+                //.then((r) => r.json())
+                //.then((r) => { console.log(r)}) //서버에서 array,object를 보내는 경우
+        })
+    }
+
+
+
+
+
+</script>
 </html>
